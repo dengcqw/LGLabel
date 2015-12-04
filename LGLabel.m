@@ -30,7 +30,7 @@ NSAttributedString *LGAttributedLine(NSNumber *paraLineSpace, NSNumber *lineSpac
 }
 
 NSAttributedString *LGAttributedView(UIView *view, NSNumber *offset) {
-    return [[NSMutableAttributedString alloc] initWithString:@" " attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:1],NSKernAttributeName:@(view.width), NSViewAttributeName:view, NSViewOffsetAttributeName:offset}];
+    return [[NSMutableAttributedString alloc] initWithString:@" " attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:1],NSKernAttributeName:@(view.bounds.size.width), NSViewAttributeName:view, NSViewOffsetAttributeName:offset}];
 }
 
 @interface LGLabel ()
@@ -66,7 +66,7 @@ NSAttributedString *LGAttributedView(UIView *view, NSNumber *offset) {
                                options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired)
                             usingBlock:^(NSNumber *value, NSRange range, BOOL *stop) {
                                 
-        if (value && LGIsKindOfClass(value, NSNumber)) {
+        if (value && [value isKindOfClass:[NSNumber class]]) {
             if (tempMutableAttrStr == nil) {
                 tempMutableAttrStr = [attributedText mutableCopy];
             }
@@ -108,7 +108,7 @@ NSAttributedString *LGAttributedView(UIView *view, NSNumber *offset) {
                                options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired)
                             usingBlock:^(NSNumber *value, NSRange range, BOOL *stop) {
                                 
-        if (value && LGIsKindOfClass(value, NSNumber)) {
+        if (value && [value isKindOfClass:[NSNumber class]]) {
             if (tempMutableAttrStr == nil) {
                 tempMutableAttrStr = [attributedText mutableCopy];
             }
@@ -137,7 +137,7 @@ NSAttributedString *LGAttributedView(UIView *view, NSNumber *offset) {
     NSAttributedString *tempMutableAttrStr = self.attributedText;
     NSRange allRange = NSMakeRange(0, tempMutableAttrStr.length);
     [self.attributedText enumerateAttribute:NSViewAttributeName inRange:allRange options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired) usingBlock:^(UIView *view, NSRange range, BOOL *stop) {
-        if (view && LGIsKindOfClass(view, UIView)) {
+        if (view && [view isKindOfClass:[UIView class]]) {
             if (view.superview != self) {
                 [self addSubview:view];
             }
@@ -145,7 +145,7 @@ NSAttributedString *LGAttributedView(UIView *view, NSNumber *offset) {
 #if DEBUG
             NSAssert(offsetValue,@"NSViewOffsetAttributeName is nil. That is imposable");
 #endif
-            CGFloat offset = LGIsKindOfClass(offsetValue, NSNumber)?[(NSNumber *)offsetValue floatValue]:0;
+            CGFloat offset = [offsetValue isKindOfClass:[NSNumber class]]?[(NSNumber *)offsetValue floatValue]:0;
             
             // 插入view位置之前的attributed string，用于计算高度，相对y坐标
             NSAttributedString *headStr = [tempMutableAttrStr attributedSubstringFromRange:NSMakeRange(0, range.location)];
@@ -181,7 +181,7 @@ NSAttributedString *LGAttributedView(UIView *view, NSNumber *offset) {
                                options:(NSAttributedStringEnumerationLongestEffectiveRangeNotRequired)
                             usingBlock:^(NSNumber *value, NSRange range, BOOL *stop) {
                                 
-        if (value && LGIsKindOfClass(value, NSNumber)) {
+        if (value && [value isKindOfClass:[NSValue class]]) {
             if (tempMutableAttrStr == nil) {
                 tempMutableAttrStr = [attributedText mutableCopy];
             }
